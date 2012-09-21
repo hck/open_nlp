@@ -28,7 +28,7 @@ describe OpenNlp::Chunker do
 
     it "should chunk a sentence" do
       chunks = chunker.chunk("The red fox sleeps soundly.")
-      chunks.should == [["The", "red", "fox", "sleeps"], ["soundly"]]
+      chunks.should == [[{"The"=>"DT"}, {"red"=>"JJ"}, {"fox"=>"NN"}, {"sleeps"=>"NNS"}], [{"soundly"=>"RB"}]]
     end
 
     it "should raise an error when not passed a string" do

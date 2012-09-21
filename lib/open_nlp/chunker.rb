@@ -3,7 +3,6 @@ module OpenNlp
     self.java_class = Java::opennlp.tools.chunker.ChunkerME
 
     def initialize(model, token_model, pos_model)
-      #raise ArgumentError, "model must be an OpenNlp::Chunker::Model" unless model.is_a?(Chunker::Model)
       super(model)
 
       raise ArgumentError, "model must be an OpenNlp::Tokenizer::Model" unless token_model.is_a?(Model::Tokenizer)
@@ -11,7 +10,6 @@ module OpenNlp
 
       @tokenizer = Tokenizer.new(token_model)
       @pos_tagger = POSTagger.new(pos_model)
-      #@j_instance = self.java_class.new(model.j_model)
     end
 
     def chunk(str)
@@ -32,8 +30,8 @@ module OpenNlp
 
       data.inject([]) do |acc, val|
         chunk = val[2]
-        acc << [val[0]] if chunk[0] == 'B'
-        acc.last << val[0] if chunk[0] == 'I'
+        acc << [{val[0] => val[1]}] if chunk[0] == 'B'
+        acc.last << {val[0] => val[1]} if chunk[0] == 'I'
 
         acc
       end
