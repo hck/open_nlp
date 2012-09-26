@@ -7,14 +7,14 @@ describe OpenNlp::Model::Chunker do
   it "should accept a string filename parameter" do
     chunker_model = subject.new(model_file_name)
     chunker_model.should be_a(subject)
-    chunker_model.j_model.should be_a(subject.java_class_name)
+    chunker_model.j_model.should be_a(subject.java_class)
   end
 
   it "should accept a java.io.FileInputStream object" do
     file_input_stream = java.io.FileInputStream.new(model_file_name)
     chunker_model = subject.new(file_input_stream)
     chunker_model.should be_a(subject)
-    chunker_model.j_model.should be_a(subject.java_class_name)
+    chunker_model.j_model.should be_a(subject.java_class)
   end
 
   it "should raise an argument error otherwise" do

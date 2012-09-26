@@ -36,5 +36,9 @@ module OpenNlp
         acc
       end
     end
+
+    def get_last_probabilities
+      @j_instance.probs.to_ary
+    end
   end
 end

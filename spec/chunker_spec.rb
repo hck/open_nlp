@@ -16,6 +16,14 @@ describe OpenNlp::Chunker do
     it "should raise an argument error when no model is supplied" do
       lambda { subject.new(nil, nil, nil) }.should raise_error(ArgumentError)
     end
+
+    it "should raise an argument error when no token_model is supplied" do
+      lambda { subject.new(model, nil, nil) }.should raise_error(ArgumentError)
+    end
+
+    it "should raise an argument error when no pos_model is supplied" do
+      lambda { subject.new(model, token_model, nil) }.should raise_error(ArgumentError)
+    end
   end
 
   describe "chunking a string" do

@@ -1,5 +1,7 @@
 module OpenNlp
   class Model
+    include JavaClass
+
     attr_reader :j_model
 
     def initialize(model)
@@ -12,17 +14,7 @@ module OpenNlp
                        raise ArgumentError, "Model must be either a string or a java.io.FileInputStream"
                      end
 
-      @j_model = self.class.java_class_name.new(model_stream)
-    end
-
-    class << self
-      def java_class_name=(value)
-        @java_class = value
-      end
-
-      def java_class_name
-        @java_class
-      end
+      @j_model = self.class.java_class.new(model_stream)
     end
   end
 end
