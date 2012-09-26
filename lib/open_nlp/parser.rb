@@ -35,7 +35,6 @@ module OpenNlp
                          )
       end
 
-      #code_tree @j_instance.parse(parse_obj)
       Parser::Parse.new(@j_instance.parse(parse_obj))
     end
 
@@ -48,54 +47,6 @@ module OpenNlp
       end if index > 0
 
       offset
-    end
-
-    #def build_tree(parse_obj)
-    #  span = parse_obj.getSpan
-    #  start = span.getStart
-    #  text = parse_obj.getText
-    #  type = parse_obj.getType
-    #
-    #  res = {}
-    #  res[:type] = type unless type == Java::opennlp.tools.parser.AbstractBottomUpParser::TOK_NODE
-    #
-    #  children = parse_obj.getChildren.inject([]) do |acc,c|
-    #    s = c.span
-    #
-    #    h = {}
-    #
-    #    if start < s.getStart
-    #      token = text[start..s.getStart-1]
-    #      h[:token] = token unless token.strip.empty?
-    #    end
-    #
-    #    subtree = build_tree(c)
-    #    h[:children] = subtree unless subtree.empty?
-    #
-    #    start = s.getEnd
-    #
-    #    acc << h
-    #    acc
-    #  end
-    #
-    #  res[:token] = text[start..span.getEnd-1] if start < span.getEnd
-    #
-    #  res[:children] = children unless children.empty?
-    #
-    #  res
-    #end
-
-    def code_tree(parse_obj)
-      kids = parse_obj.getChildren
-
-      kids.inject([]) do |acc,kid|
-        data = {type: kid.getType, parent_type: parse_obj.getType, token: kid.toString}
-        subtree = code_tree(kid)
-        data[:children] = subtree unless subtree.empty?
-        acc << data
-
-        acc
-      end
     end
   end
 end
