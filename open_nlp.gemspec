@@ -9,6 +9,7 @@ Gem::Specification.new do |gem|
   gem.authors       = ["Hck"]
   gem.description   = %q{JRuby tools wrapper for Apache OpenNLP}
   gem.summary       = %q{A JRuby wrapper for the Apache OpenNLP tools library}
+  gem.homepage      = "http://github.com/hck/open_nlp"
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
