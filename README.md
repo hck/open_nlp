@@ -7,6 +7,7 @@ A JRuby wrapper for the Apache OpenNLP tools library, that allows you execute co
  * named entity extraction
  * chunks detection
  * parsing
+ * document categorization
 
 ## Installation
 
@@ -66,7 +67,7 @@ Then you can create instances of open_nlp classes and use it for your nlp tasks
 ### Parsing
 
     # parser also needs tokenizer model because it uses tokenizer inside parse task
-    parse_model = OpenNlp::Model::Parser.new(File.join(FIXTURES_DIR, "en-parser-chunking.bin"))
+    parse_model = OpenNlp::Model::Parser.new(File.join("nlp_models/en-parser-chunking.bin"))
     token_model = OpenNlp::Model::Tokenizer.new("nlp_models/en-token.bin")
     parser = OpenNlp::Parser.new(parse_model, token_model)
 
@@ -78,6 +79,12 @@ Then you can create instances of open_nlp classes and use it for your nlp tasks
 
     # you can get code tree structure of parse result by calling
     parse_info.code_tree
+
+### Categorizing
+
+    doccat_model = OpenNlp::Model::Parser.new(File.join("nlp_models/en-doccat.bin"))
+    categorizer = OpenNlp::Categorizer.new(doccat_model)
+    categorizer.categorize("Quick brown fox jumps very bad.")
 
 ## Contributing
 
