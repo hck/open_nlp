@@ -30,8 +30,15 @@ module OpenNlp
 
       data.inject([]) do |acc, val|
         chunk = val[2]
-        acc << [{val[0] => val[1]}] if chunk[0] == 'B'
-        acc.last << {val[0] => val[1]} if chunk[0] == 'I'
+        acc << [{val[0] => val[1]}] if chunk[0] == 'B' # add token to chunk if it is a start of chunk
+
+        if chunk[0] == 'I'
+          if acc.last
+            acc.last << {val[0] => val[1]} # add token to chunk if it is a continuation of chunk
+          else
+            acc << [{val[0] => val[1]}] # add token to new chunk if no chunks exists
+          end
+        end
 
         acc
       end
