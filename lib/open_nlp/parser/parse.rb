@@ -42,7 +42,7 @@ module OpenNlp
       kids = j_instance.getChildren
 
       kids.inject([]) do |acc,kid|
-        data = {type: kid.getType, parent_type: self.j_instance.getType, token: kid.toString}
+        data = {:type => kid.getType, :parent_type => self.j_instance.getType, :token => kid.toString}
         subtree = self.class.new(kid).code_tree
         data[:children] = subtree unless subtree.empty?
         acc << data
