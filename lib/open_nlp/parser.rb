@@ -24,7 +24,7 @@ module OpenNlp
       tokens = @tokenizer.tokenize(text)
 
       tokens.each_with_index do |tok, i|
-        start = get_token_offset text, tokens, i
+        start = text.index tok
 
         parse_obj.insert Java::opennlp.tools.parser.Parse.new(
                            text.to_java(:String),
@@ -36,17 +36,6 @@ module OpenNlp
       end
 
       Parser::Parse.new(@j_instance.parse(parse_obj))
-    end
-
-    private
-    def get_token_offset(text, tokens, index)
-      offset = 0
-
-      for i in (1..index) do
-        offset = text.index tokens[i], offset + tokens[i - 1].size
-      end if index > 0
-
-      offset
     end
   end
 end
