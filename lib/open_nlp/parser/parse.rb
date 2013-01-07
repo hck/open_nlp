@@ -13,25 +13,25 @@ module OpenNlp
     end
 
     def tree_bank_string
-      span = j_instance.getSpan
-      text = j_instance.getText
-      type = j_instance.getType
-      start = span.getStart
+      span = j_instance.get_span
+      text = j_instance.get_text
+      type = j_instance.get_type
+      start = span.get_start
 
       res = ''
 
       res << "(#{type} " unless type == Java::opennlp.tools.parser.AbstractBottomUpParser::TOK_NODE
 
-      j_instance.getChildren.each do |c|
+      j_instance.get_children.each do |c|
         s = c.span
-        res << text[start..s.getStart-1] if start < s.getStart
+        res << text[start..s.get_start-1] if start < s.get_start
 
         subtree = self.class.new(c).tree_bank_string
         res << subtree if subtree
-        start = s.getEnd
+        start = s.get_end
       end
 
-      res << text[start..span.getEnd-1] if start < span.getEnd
+      res << text[start..span.get_end-1] if start < span.get_end
 
       res << ")" unless type == Java::opennlp.tools.parser.AbstractBottomUpParser::TOK_NODE
 
@@ -39,15 +39,11 @@ module OpenNlp
     end
 
     def code_tree
-      kids = j_instance.getChildren
-
-      kids.inject([]) do |acc,kid|
-        data = {:type => kid.getType, :parent_type => self.j_instance.getType, :token => kid.toString}
+      j_instance.get_children.each_with_object([]) do |kid, acc|
+        data = {:type => kid.get_type, :parent_type => self.j_instance.get_type, :token => kid.to_s}
         subtree = self.class.new(kid).code_tree
         data[:children] = subtree unless subtree.empty?
         acc << data
-
-        acc
       end
     end
   end
