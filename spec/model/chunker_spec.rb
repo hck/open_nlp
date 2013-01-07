@@ -10,8 +10,8 @@ describe OpenNlp::Model::Chunker do
     chunker_model.j_model.should be_a(subject.java_class)
   end
 
-  it "should accept a java.io.FileInputStream object" do
-    file_input_stream = java.io.FileInputStream.new(model_file_name)
+  it "should accept a Java::JavaIO::FileInputStream object" do
+    file_input_stream = Java::JavaIO::FileInputStream.new(model_file_name)
     chunker_model = subject.new(file_input_stream)
     chunker_model.should be_a(subject)
     chunker_model.j_model.should be_a(subject.java_class)

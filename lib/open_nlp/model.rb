@@ -6,12 +6,12 @@ module OpenNlp
 
     def initialize(model)
       model_stream = case model
-                     when java.io.FileInputStream
+                     when Java::JavaIO::FileInputStream
                        model
                      when String
-                       java.io.FileInputStream.new(model)
+                       Java::JavaIO::FileInputStream.new(model)
                      else
-                       raise ArgumentError, "Model must be either a string or a java.io.FileInputStream"
+                       raise ArgumentError, "Model must be either a string or a Java::JavaIO::FileInputStream"
                      end
 
       @j_model = self.class.java_class.new(model_stream)
