@@ -10,8 +10,8 @@ describe OpenNlp::Model::Detokenizer do
     model.j_model.should be_a(subject.java_class)
   end
 
-  it "should accept a java.io.FileInputStream object" do
-    file_input_stream = java.io.FileInputStream.new(model_file_name)
+  it "should accept a Java::JavaIO::FileInputStream object" do
+    file_input_stream = Java::JavaIO::FileInputStream.new(model_file_name)
     model = subject.new(file_input_stream)
     model.should be_a(subject)
     model.j_model.should be_a(subject.java_class)
