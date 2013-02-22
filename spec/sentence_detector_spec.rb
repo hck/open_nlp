@@ -17,7 +17,7 @@ describe OpenNlp::SentenceDetector do
     end
   end
 
-  describe "sentence detection" do
+  describe "#detect" do
     let(:sent_detector) { subject.new(model) }
 
     it "should detect no sentences in an empty string" do
@@ -32,6 +32,19 @@ describe OpenNlp::SentenceDetector do
 
     it "should raise an ArgumentError for a non-string" do
       lambda { sent_detector.detect(nil) }.should raise_error(ArgumentError)
+    end
+  end
+
+  describe "#pos_detect" do
+    let(:sent_detector) { subject.new(model) }
+
+    it "should detect sentences in a string" do
+      sentences = sent_detector.pos_detect("The sky is blue. The Grass is green.")
+      sentences.should == [OpenNlp::Util::Span.new(0, 16), OpenNlp::Util::Span.new(17, 36)]
+    end
+
+    it "should raise an ArgumentError for a non-string" do
+      expect { sent_detector.detect(nil) }.to raise_error(ArgumentError)
     end
   end
 end

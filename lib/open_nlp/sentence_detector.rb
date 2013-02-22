@@ -6,5 +6,10 @@ module OpenNlp
       raise ArgumentError, "string must be a String" unless string.is_a?(String)
       @j_instance.sentDetect(string).to_ary
     end
+
+    def pos_detect(string)
+      raise ArgumentError, "string must be a String" unless string.is_a?(String)
+      @j_instance.sentPosDetect(string).map{|span| OpenNlp::Util::Span.new(span.getStart, span.getEnd)}
+    end
   end
 end

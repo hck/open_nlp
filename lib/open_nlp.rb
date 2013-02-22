@@ -17,6 +17,9 @@ require 'open_nlp/model/sentence_detector'
 require 'open_nlp/model/tokenizer'
 require 'open_nlp/model/parser'
 
+require 'open_nlp/util'
+require 'open_nlp/util/span'
+
 require 'open_nlp/tool'
 require 'open_nlp/categorizer'
 require 'open_nlp/named_entity_detector'
