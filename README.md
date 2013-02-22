@@ -35,7 +35,12 @@ Then you can create instances of open_nlp classes and use it for your nlp tasks
 
     sentence_detect_model = OpenNlp::Model::SentenceDetector.new("nlp_models/en-sent.bin")
     sentence_detector = OpenNlp::SentenceDetector.new(sentence_detect_model)
+
+    # get sentences as array of strings
     sentence_detector.detect('The red fox sleeps soundly.')
+
+    # get array of OpenNLP::Util::Span objects:
+    sentence_detector.pos_detect('"The sky is blue. The Grass is green."')
 
 ### Tokenize
 
