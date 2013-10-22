@@ -5,12 +5,11 @@ module OpenNlp
       raise ArgumentError, "model must be an OpenNlp::Tokenizer::Model" unless token_model.is_a?(Model::Tokenizer)
 
       @j_instance = Java::opennlp.tools.parser.ParserFactory.create(model.j_model)
-
       @tokenizer = Tokenizer.new(token_model)
     end
 
     def parse(text)
-      raise ArgumentError, "str must be a String" unless text.is_a?(String)
+      raise ArgumentError, "passed text must be a String" unless text.is_a?(String)
       return {} if text.empty?
 
       parse_obj = Java::opennlp.tools.parser.Parse.new(
@@ -21,8 +20,21 @@ module OpenNlp
         0.to_java(:Integer) # the token index of the head of this parse
       )
 
-      tokens = @tokenizer.tokenize(text)
+      parse_tokens @tokenizer.tokenize(text), text, parse_obj
+    end
 
+    private
+    def get_token_offset(text, tokens, index)
+      offset = 0
+      return offset unless index > 0
+
+      for i in (1..index) do
+        offset = text.index tokens[i], offset + tokens[i - 1].size
+      end
+      offset
+    end
+
+    def parse_tokens(tokens, text, parse_obj)
       tokens.each_with_index do |tok, i|
         start = get_token_offset text, tokens, i
 
@@ -36,17 +48,6 @@ module OpenNlp
       end
 
       Parser::Parse.new(@j_instance.parse(parse_obj))
-    end
-
-    private
-    def get_token_offset(text, tokens, index)
-      offset = 0
-
-      for i in (1..index) do
-        offset = text.index tokens[i], offset + tokens[i - 1].size
-      end if index > 0
-
-      offset
     end
   end
 end

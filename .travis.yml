@@ -1,4 +1,4 @@
 language: ruby
 rvm:
   - jruby-19mode
-script: bundle exec rspec spec
+script: JRUBY_OPTS=-J-Xmx500m bundle exec rspec spec
