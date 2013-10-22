@@ -1,6 +1,6 @@
 # OpenNlp
 
-[![Code Climate](https://codeclimate.com/github/hck/open_nlp.png)](https://codeclimate.com/github/hck/open_nlp)
+[![Build Status](https://travis-ci.org/hck/open_nlp.png?branch=master)](https://travis-ci.org/hck/open_nlp) [![Code Climate](https://codeclimate.com/github/hck/open_nlp.png)](https://codeclimate.com/github/hck/open_nlp)
 
 A JRuby wrapper for the Apache OpenNLP tools library, that allows you execute common natural language processing tasks, such as
  * sentence detection
