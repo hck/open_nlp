@@ -10,17 +10,7 @@ module OpenNlp
 
     def parse(text)
       raise ArgumentError, "passed text must be a String" unless text.is_a?(String)
-      return {} if text.empty?
-
-      parse_obj = Java::opennlp.tools.parser.Parse.new(
-        text.to_java(:String),
-        Java::opennlp.tools.util.Span.new(0, text.size),
-        Java::opennlp.tools.parser.AbstractBottomUpParser::INC_NODE.to_java(:String),
-        1.to_java(:Double), # probability ?
-        0.to_java(:Integer) # the token index of the head of this parse
-      )
-
-      parse_tokens @tokenizer.tokenize(text), text, parse_obj
+      text.empty? ? {} : parse_tokens(@tokenizer.tokenize(text), text)
     end
 
     private
@@ -34,17 +24,24 @@ module OpenNlp
       offset
     end
 
-    def parse_tokens(tokens, text, parse_obj)
-      tokens.each_with_index do |tok, i|
-        start = get_token_offset text, tokens, i
+    def build_parse_obj(text, span_start, span_end, type=Java::opennlp.tools.parser.AbstractBottomUpParser::INC_NODE, probability=1, token_index=0)
+      Java::opennlp.tools.parser.Parse.new(
+        text.to_java(:String),
+        Java::opennlp.tools.util.Span.new(span_start, span_end),
+        type.to_java(:String),
+        probability.to_java(:Double), # probability ?
+        token_index.to_java(:Integer) # the token index of the head of this parse
+      )
+    end
 
-        parse_obj.insert Java::opennlp.tools.parser.Parse.new(
-                           text.to_java(:String),
-                           Java::opennlp.tools.util.Span.new(start, start + tok.size),
-                           Java::opennlp.tools.parser.AbstractBottomUpParser::TOK_NODE.to_java(:String),
-                           0.to_java(:Double),
-                           i.to_java(:Integer)
-                         )
+    def parse_tokens(tokens, text)
+      parse_obj = build_parse_obj(text, 0, text.size)
+      parse_type = Java::opennlp.tools.parser.AbstractBottomUpParser::TOK_NODE
+
+      tokens.each_with_index do |tok, i|
+        start = get_token_offset(text, tokens, i)
+        token_parse = build_parse_obj(text, start, start + tok.size, parse_type, 0, i)
+        parse_obj.insert(token_parse)
       end
 
       Parser::Parse.new(@j_instance.parse(parse_obj))
