@@ -1,8 +1,8 @@
 require 'open_nlp/version'
 
 require 'java'
-require 'open_nlp/opennlp-tools-1.5.2-incubating.jar'
-require 'open_nlp/opennlp-maxent-3.0.2-incubating.jar'
+require 'open_nlp/opennlp-tools-1.5.3.jar'
+require 'open_nlp/opennlp-maxent-3.0.3.jar'
 
 require 'open_nlp/java_class'
 
