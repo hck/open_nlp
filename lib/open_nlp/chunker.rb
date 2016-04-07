@@ -5,27 +5,38 @@ module OpenNlp
     def initialize(model, token_model, pos_model)
       super(model)
 
-      raise ArgumentError, "model must be an OpenNlp::Tokenizer::Model" unless token_model.is_a?(Model::Tokenizer)
-      raise ArgumentError, "model must be an OpenNlp::POSTagger::Model" unless pos_model.is_a?(Model::POSTagger)
+      unless token_model.is_a?(Model::Tokenizer)
+        fail ArgumentError, 'token model must be an OpenNlp::Tokenizer::Model'
+      end
+
+      unless pos_model.is_a?(Model::POSTagger)
+        fail ArgumentError, 'pos model must be an OpenNlp::POSTagger::Model'
+      end
 
       @tokenizer = Tokenizer.new(token_model)
       @pos_tagger = POSTagger.new(pos_model)
     end
 
+    # Chunks a string into part-of-sentence pieces
+    #
+    # @param [String] str string to chunk
+    # @return [Array] array of chunks with part-of-sentence information
     def chunk(str)
-      raise ArgumentError, "str must be a String" unless str.is_a?(String)
+      fail ArgumentError, 'str must be a String' unless str.is_a?(String)
 
-      tokens = @tokenizer.tokenize(str)
-      pos_tags = @pos_tagger.tag(tokens).to_ary
+      tokens = tokenizer.tokenize(str)
+      pos_tags = pos_tagger.tag(tokens).to_ary
 
-      chunks = @j_instance.chunk(tokens.to_java(:String), pos_tags.to_java(:String)).to_ary
+      chunks = j_instance.chunk(tokens.to_java(:String), pos_tags.to_java(:String)).to_ary
 
       build_chunks(chunks, tokens, pos_tags)
     end
 
     private
+
+    attr_reader :tokenizer, :pos_tagger
+
     def build_chunks(chunks, tokens, pos_tags)
-      # data[i] = [token, pos_tag, chunk_val]
       data = tokens.zip(pos_tags, chunks)
 
       data.inject([]) do |acc, val|
@@ -45,7 +56,7 @@ module OpenNlp
     end
 
     def get_last_probabilities
-      @j_instance.probs.to_ary
+      j_instance.probs.to_ary
     end
   end
 end

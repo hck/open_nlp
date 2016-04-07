@@ -6,8 +6,8 @@ class OpenNlp::Util::Span
   attr_reader :j_instance
 
   def initialize(s, e)
-    raise ArgumentError, "s should be an integer" unless s.is_a?(Fixnum)
-    raise ArgumentError, "e should be an integer" unless e.is_a?(Fixnum)
+    fail ArgumentError, 's should be an integer' unless s.is_a?(Fixnum)
+    fail ArgumentError, 'e should be an integer' unless e.is_a?(Fixnum)
 
     @j_instance = self.class.java_class.new(s, e)
   end
@@ -31,8 +31,8 @@ class OpenNlp::Util::Span
   def ==(obj)
     return false unless obj.is_a?(self.class)
 
-    [:start, :end, :type].each_with_object(true) do |m,res|
-      res = res && self.public_send(m) == obj.public_send(m)
+    [:start, :end, :type].each_with_object(true) do |method, acc|
+      acc = acc && self.public_send(method) == obj.public_send(method)
     end
   end
 end

@@ -1,19 +1,31 @@
 module OpenNlp
   class Parser < Tool
-    def initialize(model, token_model)
-      raise ArgumentError, "model must be an OpenNlp::Model" unless model.is_a?(OpenNlp::Model)
-      raise ArgumentError, "model must be an OpenNlp::Tokenizer::Model" unless token_model.is_a?(Model::Tokenizer)
+    def initialize(parser_model, token_model)
+      unless parser_model.is_a?(OpenNlp::Model)
+        fail ArgumentError, 'parser_model must be an OpenNlp::Model'
+      end
 
-      @j_instance = Java::opennlp.tools.parser.ParserFactory.create(model.j_model)
+      unless token_model.is_a?(Model::Tokenizer)
+        fail ArgumentError, 'token_model must be an OpenNlp::Tokenizer::Model'
+      end
+
+      @j_instance = Java::opennlp.tools.parser.ParserFactory.create(parser_model.j_model)
       @tokenizer = Tokenizer.new(token_model)
     end
 
+    # Parses text into instance of Parse class
+    #
+    # @param [String] text text to parse
+    # @return [OpenNlp::Parser::Parse]
     def parse(text)
-      raise ArgumentError, "passed text must be a String" unless text.is_a?(String)
-      text.empty? ? {} : parse_tokens(@tokenizer.tokenize(text), text)
+      raise ArgumentError, 'passed text must be a String' unless text.is_a?(String)
+      text.empty? ? {} : parse_tokens(tokenizer.tokenize(text), text)
     end
 
     private
+
+    attr_reader :tokenizer
+
     def get_token_offset(text, tokens, index)
       offset = 0
       return offset unless index > 0
@@ -44,7 +56,7 @@ module OpenNlp
         parse_obj.insert(token_parse)
       end
 
-      Parser::Parse.new(@j_instance.parse(parse_obj))
+      Parser::Parse.new(j_instance.parse(parse_obj))
     end
   end
 end
