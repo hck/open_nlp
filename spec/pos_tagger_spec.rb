@@ -1,37 +1,36 @@
-require "spec_helper"
+require 'spec_helper'
 
-describe OpenNlp::POSTagger do
-  subject { OpenNlp::POSTagger }
+RSpec.describe OpenNlp::POSTagger do
+  let(:model) { OpenNlp::Model::POSTagger.new(File.join(FIXTURES_DIR, 'en-pos-maxent.bin')) }
+  let(:pos_tagger) { described_class.new(model) }
 
-  let(:model) { OpenNlp::Model::POSTagger.new(File.join(FIXTURES_DIR, "en-pos-maxent.bin")) }
-
-  describe "initialization" do
-    it "should initialize with a valid model" do
-      tagger = subject.new(model)
-      tagger.should be_a(subject)
-      tagger.j_instance.should be_a(subject.java_class)
+  describe 'initialization' do
+    it 'initialize with a valid model' do
+      expect(pos_tagger.j_instance).to be_a(described_class.java_class)
     end
 
-    it "should raise an ArgumentError without a valid model" do
-      lambda { subject.new(nil) }.should raise_error(ArgumentError)
+    it 'raises an ArgumentError without a valid model' do
+      expect { described_class.new(nil) }.to raise_error(ArgumentError)
     end
   end
 
-  describe "pos tagging" do
-    let(:pos_tagger) { subject.new(model) }
-
-    it "should tag parts of a provided document" do
-      tagged = pos_tagger.tag("The quick brown fox jumps over the lazy dog.")
-      tagged.should == "The/DT quick/JJ brown/JJ fox/NN jumps/NNS over/IN the/DT lazy/JJ dog./NN"
+  describe '#tag' do
+    it 'tags parts of a provided document' do
+      tagged = pos_tagger.tag('The quick brown fox jumps over the lazy dog.')
+      expect(tagged).to eq('The/DT quick/JJ brown/JJ fox/NN jumps/NNS over/IN the/DT lazy/JJ dog./NN')
     end
 
-    it "should tag provided tokens" do
+    it 'tags provided tokens' do
       tagged = pos_tagger.tag(%w(The quick brown fox jumps over the lazy dog .))
-      tagged.to_ary.should == %w(DT JJ JJ NN NNS IN DT JJ NN .)
+      expect(tagged.to_ary).to eq(%w(DT JJ JJ NN NNS IN DT JJ NN .))
     end
 
-    it "should raise an ArgumentError for a non-string" do
-      lambda { pos_tagger.tag(nil) }.should raise_error(ArgumentError)
+    it 'raises an ArgumentError when nil is passed as an argument' do
+      expect { pos_tagger.tag(nil) }.to raise_error(ArgumentError)
+    end
+
+    it 'raises an ArgumentError when fixnum is passed as an argument' do
+      expect { pos_tagger.tag(111) }.to raise_error(ArgumentError)
     end
   end
 end

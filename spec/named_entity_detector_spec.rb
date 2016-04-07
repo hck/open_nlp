@@ -1,42 +1,43 @@
-require "spec_helper"
+require 'spec_helper'
 
-describe OpenNlp::NamedEntityDetector do
-  subject { OpenNlp::NamedEntityDetector }
-
-  let(:model) { OpenNlp::Model::NamedEntityDetector.new(File.join(FIXTURES_DIR, "en-ner-time.bin")) }
+RSpec.describe OpenNlp::NamedEntityDetector do
+  let(:model) { OpenNlp::Model::NamedEntityDetector.new(File.join(FIXTURES_DIR, 'en-ner-time.bin')) }
+  let(:ne_detector) { described_class.new(model) }
   
-  describe "initialization" do
-    it "should initialize with a valid model" do
-      ne_detector = subject.new(model)
-      ne_detector.should be_a(subject)
+  describe 'initialization' do
+    it 'initializes with a valid model' do
+      expect(ne_detector.j_instance).to be_a(described_class.java_class)
     end
 
-    it "should raise an ArgumentError otherwise" do
-      lambda { subject.new(nil) }.should raise_error(ArgumentError)
+    it 'raises an ArgumentError otherwise' do
+      expect { subject.new(nil) }.to raise_error(ArgumentError)
     end
   end
 
-  describe "detection" do
-    let(:ne_detector) { subject.new(model) }
-
-    it "should detect nothing in an empty sentence" do
+  describe '#detect' do
+    it 'detects nothing for empty sentence' do
       spans = ne_detector.detect([])
-      spans.should be_a(Array)
-      spans.length.should == 0
+      expect(spans).to eq([])
     end
 
-    it "should detect the named entities" do
-      spans = ne_detector.detect(["The", "time", "is", "10", ":", "23", "am"])
-      spans.should be_a(Array)
-      spans[0].should be_a(Java::opennlp.tools.util.Span)
-      spans[0].getStart.should == 3
-      spans[0].getEnd.should == 7
+    it 'detects the named entities' do
+      spans = ne_detector.detect(['The', 'time', 'is', '10', ':', '23', 'am'])
+      expect(spans.size).to eq(1)
+      expect(spans.first).to be_a(Java::opennlp.tools.util.Span)
+      expect(spans.first.getStart).to eq(3)
+      expect(spans.first.getEnd).to eq(7)
     end
 
-    it "should raise an error if anything but an array is passed" do
-      lambda { ne_detector.detect(nil) }.should raise_error(ArgumentError)
-      lambda { ne_detector.detect('str') }.should raise_error(ArgumentError)
-      lambda { ne_detector.detect(111) }.should raise_error(ArgumentError)
+    it 'raises an error if nil is passed as an argument' do
+      expect { ne_detector.detect(nil) }.to raise_error(ArgumentError)
+    end
+
+    it 'raises an error if string is passed as an argument' do
+      expect { ne_detector.detect('str') }.to raise_error(ArgumentError)
+    end
+
+    it 'raises an error if fixnum is passed as an argument' do
+      expect { ne_detector.detect(111) }.to raise_error(ArgumentError)
     end
   end
 end

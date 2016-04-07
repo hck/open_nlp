@@ -1,23 +1,20 @@
-require "spec_helper"
+require 'spec_helper'
 
 describe OpenNlp::Model::Tokenizer do
-  subject { OpenNlp::Model::Tokenizer }
-  let(:model_file_name) { File.join(FIXTURES_DIR, "en-token.bin") }
+  let(:model_file_name) { File.join(FIXTURES_DIR, 'en-token.bin') }
 
-  it "should accept a string filename parameter" do
-    model = subject.new(model_file_name)
-    model.should be_a(subject)
-    model.j_model.should be_a(subject.java_class)
+  it 'accept a string filename parameter' do
+    model = described_class.new(model_file_name)
+    expect(model.j_model).to be_a(described_class.java_class)
   end
 
-  it "should accept a java.io.FileInputStream object" do
+  it 'should accept a java.io.FileInputStream object' do
     file_input_stream = java.io.FileInputStream.new(model_file_name)
-    model = subject.new(file_input_stream)
-    model.should be_a(subject)
-    model.j_model.should be_a(subject.java_class)
+    model = described_class.new(file_input_stream)
+    expect(model.j_model).to be_a(described_class.java_class)
   end
 
-  it "should raise an argument error otherwise" do
-    lambda { subject.new(nil) }.should raise_error(ArgumentError)
+  it 'raises an argument error when nil is passed as a model' do
+    expect { described_class.new(nil) }.to raise_error(ArgumentError)
   end
 end

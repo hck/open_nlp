@@ -1,50 +1,59 @@
-require "spec_helper"
+require 'spec_helper'
 
-describe OpenNlp::SentenceDetector do
-  subject { OpenNlp::SentenceDetector }
+RSpec.describe OpenNlp::SentenceDetector do
+  let(:model) { OpenNlp::Model::SentenceDetector.new(File.join(FIXTURES_DIR, 'en-sent.bin')) }
+  let(:sentence_detector) { described_class.new(model) }
 
-  let(:model) { OpenNlp::Model::SentenceDetector.new(File.join(FIXTURES_DIR, "en-sent.bin")) }
-
-  describe "initialization" do
-    it "should initialize with a valid model" do
-      sent_detector = subject.new(model)
-      sent_detector.should be_a(subject)
-      sent_detector.j_instance.should be_a(subject.java_class)
+  describe 'initialization' do
+    it 'initializes with a valid model' do
+      expect(sentence_detector.j_instance).to be_a(described_class.java_class)
     end
 
-    it "should raise an ArgumentError without a valid model" do
-      lambda { subject.new(nil) }.should raise_error(ArgumentError)
+    it 'raises an ArgumentError without a valid model' do
+      expect { subject.new(nil) }.to raise_error(ArgumentError)
     end
   end
 
-  describe "#detect" do
-    let(:sent_detector) { subject.new(model) }
-
-    it "should detect no sentences in an empty string" do
-      sentences = sent_detector.detect("")
-      sentences.should == []
+  describe '#detect' do
+    it 'detects no sentences in an empty string' do
+      sentences = sentence_detector.detect('')
+      expect(sentences).to eq([])
     end
 
-    it "should detect sentences in a string" do
-      sentences = sent_detector.detect("The sky is blue. The Grass is green.")
-      sentences.should == ["The sky is blue.", "The Grass is green."]
+    it 'detects sentences in a string' do
+      sentences = sentence_detector.detect('The sky is blue. The Grass is green.')
+      expect(sentences).to eq(['The sky is blue.', 'The Grass is green.'])
     end
 
-    it "should raise an ArgumentError for a non-string" do
-      lambda { sent_detector.detect(nil) }.should raise_error(ArgumentError)
+    it 'raises an ArgumentError when nil is passed as an argument' do
+      expect { sentence_detector.detect(nil) }.to raise_error(ArgumentError)
+    end
+
+    it 'raises an ArgumentError when fixnum is passed as an argument' do
+      expect { sentence_detector.detect(111) }.to raise_error(ArgumentError)
+    end
+
+    it 'raises an ArgumentError when array is passed as an argument' do
+      expect { sentence_detector.detect([1, 2]) }.to raise_error(ArgumentError)
     end
   end
 
-  describe "#pos_detect" do
-    let(:sent_detector) { subject.new(model) }
-
-    it "should detect sentences in a string" do
-      sentences = sent_detector.pos_detect("The sky is blue. The Grass is green.")
-      sentences.should == [OpenNlp::Util::Span.new(0, 16), OpenNlp::Util::Span.new(17, 36)]
+  describe '#pos_detect' do
+    it 'detects sentences in a string' do
+      sentences = sentence_detector.pos_detect('The sky is blue. The Grass is green.')
+      expect(sentences).to eq([OpenNlp::Util::Span.new(0, 16), OpenNlp::Util::Span.new(17, 36)])
     end
 
-    it "should raise an ArgumentError for a non-string" do
-      expect { sent_detector.detect(nil) }.to raise_error(ArgumentError)
+    it 'raises an ArgumentError when nil is passed as an argument' do
+      expect { sentence_detector.pos_detect(nil) }.to raise_error(ArgumentError)
+    end
+
+    it 'raises an ArgumentError when fixnum is passed as an argument' do
+      expect { sentence_detector.pos_detect(111) }.to raise_error(ArgumentError)
+    end
+
+    it 'raises an ArgumentError when array is passed as an argument' do
+      expect { sentence_detector.pos_detect([1, 2]) }.to raise_error(ArgumentError)
     end
   end
 end
