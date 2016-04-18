@@ -1,6 +1,7 @@
 PATH
   remote: .
   specs:
+    open_nlp (0.2.0-java)
 
 GEM
   remote: https://rubygems.org/
