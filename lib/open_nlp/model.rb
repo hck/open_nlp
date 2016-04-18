@@ -4,6 +4,9 @@ module OpenNlp
 
     attr_reader :j_model
 
+    # Initializes new instance of Model
+    #
+    # @param [String, java.io.FileInputStream] model
     def initialize(model)
       @j_model = self.class.java_class.new(model_stream(model))
     end

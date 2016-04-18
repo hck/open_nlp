@@ -1,5 +1,9 @@
 module OpenNlp
   class Parser < Tool
+    # Initializes new instance of Parser
+    #
+    # @param [OpenNlp::Model::Parser] parser_model
+    # @param [OpenNlp::Model::Tokenizer] token_model
     def initialize(parser_model, token_model)
       unless parser_model.is_a?(OpenNlp::Model)
         fail ArgumentError, 'parser_model must be an OpenNlp::Model'

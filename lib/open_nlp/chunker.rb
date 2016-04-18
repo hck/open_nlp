@@ -2,6 +2,11 @@ module OpenNlp
   class Chunker < Tool
     self.java_class = Java::opennlp.tools.chunker.ChunkerME
 
+    # Initializes new instance of Chunker
+    #
+    # @param [OpenNlp::Model] model chunker model
+    # @param [Model::Tokenizer] token_model tokenizer model
+    # @param [Model::POSTagger] pos_model part-of-speech tagging model
     def initialize(model, token_model, pos_model)
       super(model)
 
