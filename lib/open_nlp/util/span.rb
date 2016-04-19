@@ -5,6 +5,10 @@ class OpenNlp::Util::Span
 
   attr_reader :j_instance
 
+  # Initializes new instance of Util::Span
+  #
+  # @param [Integer] s start index of the span
+  # @param [Integer] e end index of the span
   def initialize(s, e)
     fail ArgumentError, 's should be an integer' unless s.is_a?(Fixnum)
     fail ArgumentError, 'e should be an integer' unless e.is_a?(Fixnum)
@@ -12,18 +16,30 @@ class OpenNlp::Util::Span
     @j_instance = self.class.java_class.new(s, e)
   end
 
+  # Returns end index of the span
+  #
+  # @return [Integer]
   def start
     j_instance.getStart
   end
 
+  # Returns end index of the span
+  #
+  # @return [Integer]
   def end
     j_instance.getEnd
   end
 
+  # Returns type of the span
+  #
+  # @return [String]
   def type
     j_instance.getType
   end
 
+  # Returns length of the span
+  #
+  # @return [Integer]
   def length
     j_instance.length
   end
