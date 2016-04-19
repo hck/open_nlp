@@ -31,8 +31,8 @@ class OpenNlp::Util::Span
   def ==(obj)
     return false unless obj.is_a?(self.class)
 
-    [:start, :end, :type].each_with_object(true) do |method, acc|
-      acc = acc && self.public_send(method) == obj.public_send(method)
+    [:start, :end, :type].inject(true) do |acc, method|
+      acc && self.public_send(method) == obj.public_send(method)
     end
   end
 end
