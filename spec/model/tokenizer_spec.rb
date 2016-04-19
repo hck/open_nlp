@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe OpenNlp::Model::Tokenizer do
+RSpec.describe OpenNlp::Model::Tokenizer do
   let(:model_file_name) { File.join(FIXTURES_DIR, 'en-token.bin') }
 
   it 'accept a string filename parameter' do
