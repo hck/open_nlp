@@ -3,7 +3,7 @@ require 'spec_helper'
 RSpec.describe OpenNlp::NamedEntityDetector do
   let(:model) { OpenNlp::Model::NamedEntityDetector.new(File.join(FIXTURES_DIR, 'en-ner-time.bin')) }
   let(:ne_detector) { described_class.new(model) }
-  
+
   describe 'initialization' do
     it 'initializes with a valid model' do
       expect(ne_detector.j_instance).to be_a(described_class.java_class)
