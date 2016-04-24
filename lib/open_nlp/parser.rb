@@ -31,16 +31,14 @@ module OpenNlp
     attr_reader :tokenizer
 
     def get_token_offset(text, tokens, index)
-      offset = 0
-      return offset unless index > 0
+      return 0 if index == 0
 
-      for i in (1..index) do
-        offset = text.index tokens[i], offset + tokens[i - 1].size
+      (1..index).inject(0) do |offset, i|
+        text.index(tokens[i], offset + tokens[i - 1].size)
       end
-      offset
     end
 
-    def build_parse_obj(text, span_start, span_end, type=Java::opennlp.tools.parser.AbstractBottomUpParser::INC_NODE, probability=1, token_index=0)
+    def build_parse_obj(text, span_start, span_end, type = Java::opennlp.tools.parser.AbstractBottomUpParser::INC_NODE, probability = 1, token_index = 0)
       Java::opennlp.tools.parser.Parse.new(
         text.to_java(:String),
         Java::opennlp.tools.util.Span.new(span_start, span_end),

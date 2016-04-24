@@ -13,7 +13,7 @@ module OpenNlp
 
     private
 
-    def get_last_probabilities
+    def last_probabilities
       j_instance.getTokenProbabilities.to_ary
     end
   end

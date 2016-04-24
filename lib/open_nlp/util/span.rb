@@ -44,11 +44,11 @@ class OpenNlp::Util::Span
     j_instance.length
   end
 
-  def ==(obj)
-    return false unless obj.is_a?(self.class)
+  def ==(other)
+    return false unless other.is_a?(self.class)
 
     [:start, :end, :type].inject(true) do |acc, method|
-      acc && self.public_send(method) == obj.public_send(method)
+      acc && public_send(method) == other.public_send(method)
     end
   end
 end

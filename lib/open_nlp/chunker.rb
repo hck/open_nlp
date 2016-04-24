@@ -44,23 +44,21 @@ module OpenNlp
     def build_chunks(chunks, tokens, pos_tags)
       data = tokens.zip(pos_tags, chunks)
 
-      data.inject([]) do |acc, val|
+      data.each_with_object([]) do |val, acc|
         chunk = val[2]
-        acc << [{val[0] => val[1]}] if chunk[0] == 'B' # add token to chunk if it is a start of chunk
+        acc << [{ val[0] => val[1] }] if chunk[0] == 'B' # add token to chunk if it is a start of chunk
 
-        if chunk[0] == 'I'
-          if acc.last
-            acc.last << {val[0] => val[1]} # add token to chunk if it is a continuation of chunk
-          else
-            acc << [{val[0] => val[1]}] # add token to new chunk if no chunks exists
-          end
+        next if chunk[0] != 'I'
+
+        if acc.last
+          acc.last << { val[0] => val[1] } # add token to chunk if it is a continuation of chunk
+        else
+          acc << [{ val[0] => val[1] }] # add token to new chunk if no chunks exists
         end
-
-        acc
       end
     end
 
-    def get_last_probabilities
+    def last_probabilities
       j_instance.probs.to_ary
     end
   end
