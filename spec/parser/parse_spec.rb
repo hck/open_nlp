@@ -40,66 +40,66 @@ RSpec.describe OpenNlp::Parser::Parse do
     let(:expected_code_tree) do
       [
         {
-          :type => 'S',
-          :parent_type => 'TOP',
-          :token => 'The red fox sleeps soundly .',
-          :children => [
+          type: 'S',
+          parent_type: 'TOP',
+          token: 'The red fox sleeps soundly .',
+          children: [
             {
-              :type => 'NP',
-              :parent_type => 'S',
-              :token => 'The red fox',
-              :children => [
+              type: 'NP',
+              parent_type: 'S',
+              token: 'The red fox',
+              children: [
                 {
-                    :type => 'DT',
-                    :parent_type => 'NP',
-                    :token => 'The',
-                    :children => [{:type => 'TK', :parent_type => 'DT', :token => 'The'}]
+                  type: 'DT',
+                  parent_type: 'NP',
+                  token: 'The',
+                  children: [{ type: 'TK', parent_type: 'DT', token: 'The' }]
                 },
                 {
-                    :type => 'JJ',
-                    :parent_type => 'NP',
-                    :token => 'red',
-                    :children => [{:type => 'TK', :parent_type => 'JJ', :token => 'red'}]
+                  type: 'JJ',
+                  parent_type: 'NP',
+                  token: 'red',
+                  children: [{ type: 'TK', parent_type: 'JJ', token: 'red' }]
                 },
                 {
-                    :type => 'NN',
-                    :parent_type => 'NP',
-                    :token => 'fox',
-                    :children => [{:type => 'TK', :parent_type => 'NN', :token => 'fox'}]
+                  type: 'NN',
+                  parent_type: 'NP',
+                  token: 'fox',
+                  children: [{ type: 'TK', parent_type: 'NN', token: 'fox' }]
                 }
               ]
             },
             {
-              :type => 'VP',
-              :parent_type => 'S',
-              :token => 'sleeps soundly',
-              :children => [
+              type: 'VP',
+              parent_type: 'S',
+              token: 'sleeps soundly',
+              children: [
                 {
-                  :type => 'VBZ',
-                  :parent_type => 'VP',
-                  :token => 'sleeps',
-                  :children => [{:type => 'TK', :parent_type => 'VBZ', :token => 'sleeps'}]
+                  type: 'VBZ',
+                  parent_type: 'VP',
+                  token: 'sleeps',
+                  children: [{ type: 'TK', parent_type: 'VBZ', token: 'sleeps' }]
                 },
                 {
-                  :type => 'ADVP',
-                  :parent_type => 'VP',
-                  :token => 'soundly',
-                  :children => [
+                  type: 'ADVP',
+                  parent_type: 'VP',
+                  token: 'soundly',
+                  children: [
                     {
-                      :type => 'RB',
-                      :parent_type => 'ADVP',
-                      :token => 'soundly',
-                      :children => [{:type => 'TK', :parent_type => 'RB', :token => 'soundly'}]
+                      type: 'RB',
+                      parent_type: 'ADVP',
+                      token: 'soundly',
+                      children: [{ type: 'TK', parent_type: 'RB', token: 'soundly' }]
                     }
                   ]
                 }
               ]
             },
             {
-              :type => '.',
-              :parent_type => 'S',
-              :token => '.',
-              :children => [{:type => 'TK', :parent_type => '.', :token => '.'}]
+              type: '.',
+              parent_type: 'S',
+              token: '.',
+              children: [{ type: 'TK', parent_type: '.', token: '.' }]
             }
           ]
         }
