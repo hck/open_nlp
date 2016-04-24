@@ -11,11 +11,11 @@ module OpenNlp
       super(model)
 
       unless token_model.is_a?(Model::Tokenizer)
-        fail ArgumentError, 'token model must be an OpenNlp::Tokenizer::Model'
+        raise ArgumentError, 'token model must be an OpenNlp::Tokenizer::Model'
       end
 
       unless pos_model.is_a?(Model::POSTagger)
-        fail ArgumentError, 'pos model must be an OpenNlp::POSTagger::Model'
+        raise ArgumentError, 'pos model must be an OpenNlp::POSTagger::Model'
       end
 
       @tokenizer = Tokenizer.new(token_model)
@@ -27,7 +27,7 @@ module OpenNlp
     # @param [String] str string to chunk
     # @return [Array] array of chunks with part-of-sentence information
     def chunk(str)
-      fail ArgumentError, 'str must be a String' unless str.is_a?(String)
+      raise ArgumentError, 'str must be a String' unless str.is_a?(String)
 
       tokens = tokenizer.tokenize(str)
       pos_tags = pos_tagger.tag(tokens).to_ary

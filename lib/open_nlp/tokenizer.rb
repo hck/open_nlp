@@ -7,7 +7,7 @@ module OpenNlp
     # @param [String] str string to tokenize
     # @return [Array] array of string tokens
     def tokenize(str)
-      fail ArgumentError, 'str must be a String' unless str.is_a?(String)
+      raise ArgumentError, 'str must be a String' unless str.is_a?(String)
       j_instance.tokenize(str).to_ary
     end
 

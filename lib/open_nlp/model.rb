@@ -20,7 +20,7 @@ module OpenNlp
       when String
         java.io.FileInputStream.new(model)
       else
-        fail ArgumentError, 'Model must be either a string or a java.io.FileInputStream'
+        raise ArgumentError, 'Model must be either a string or a java.io.FileInputStream'
       end
     end
   end

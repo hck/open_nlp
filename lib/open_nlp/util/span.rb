@@ -10,8 +10,8 @@ class OpenNlp::Util::Span
   # @param [Integer] s start index of the span
   # @param [Integer] e end index of the span
   def initialize(s, e)
-    fail ArgumentError, 's should be an integer' unless s.is_a?(Fixnum)
-    fail ArgumentError, 'e should be an integer' unless e.is_a?(Fixnum)
+    raise ArgumentError, 's should be an integer' unless s.is_a?(Fixnum)
+    raise ArgumentError, 'e should be an integer' unless e.is_a?(Fixnum)
 
     @j_instance = self.class.java_class.new(s, e)
   end

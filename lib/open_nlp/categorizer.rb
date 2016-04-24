@@ -7,7 +7,7 @@ module OpenNlp
     # @param [String] str string to be categorized
     # @return [String] category
     def categorize(str)
-      fail ArgumentError, 'str param must be a String' unless str.is_a?(String)
+      raise ArgumentError, 'str param must be a String' unless str.is_a?(String)
 
       outcomes = j_instance.categorize(str)
       j_instance.getBestCategory(outcomes)

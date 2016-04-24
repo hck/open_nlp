@@ -6,11 +6,11 @@ module OpenNlp
     # @param [OpenNlp::Model::Tokenizer] token_model
     def initialize(parser_model, token_model)
       unless parser_model.is_a?(OpenNlp::Model::Parser)
-        fail ArgumentError, 'parser_model must be an OpenNlp::Model'
+        raise ArgumentError, 'parser_model must be an OpenNlp::Model'
       end
 
       unless token_model.is_a?(Model::Tokenizer)
-        fail ArgumentError, 'token_model must be an OpenNlp::Tokenizer::Model'
+        raise ArgumentError, 'token_model must be an OpenNlp::Tokenizer::Model'
       end
 
       @j_instance = Java::opennlp.tools.parser.ParserFactory.create(parser_model.j_model)
