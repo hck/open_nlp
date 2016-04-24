@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 RSpec.describe OpenNlp::Parser do
-  let(:model) { OpenNlp::Model::Parser.new(File.join(FIXTURES_DIR, "en-parser-chunking.bin")) }
-  let(:token_model) { OpenNlp::Model::Tokenizer.new(File.join(FIXTURES_DIR, "en-token.bin")) }
+  let(:model) { OpenNlp::Model::Parser.new(File.join(FIXTURES_DIR, 'en-parser-chunking.bin')) }
+  let(:token_model) { OpenNlp::Model::Tokenizer.new(File.join(FIXTURES_DIR, 'en-token.bin')) }
   let(:parser) { described_class.new(model, token_model) }
 
   describe 'initialization' do

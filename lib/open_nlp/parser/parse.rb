@@ -38,8 +38,8 @@ module OpenNlp
         start = child_span.getEnd
       end
 
-      res << ")" if type != Java::opennlp.tools.parser.AbstractBottomUpParser::TOK_NODE
       res << text[start..span.getEnd - 1] if start < span.getEnd
+      res << ')' if type != Java::opennlp.tools.parser.AbstractBottomUpParser::TOK_NODE
 
       res
     end
