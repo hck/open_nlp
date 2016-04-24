@@ -1,0 +1,20 @@
+Metrics/AbcSize:
+  Max: 41
+
+Metrics/LineLength:
+  Max: 153
+
+Metrics/MethodLength:
+  Max: 15
+
+Metrics/ParameterLists:
+  Max: 6
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/ColonMethodCall:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
