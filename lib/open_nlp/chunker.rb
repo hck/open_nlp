@@ -10,13 +10,11 @@ module OpenNlp
     def initialize(model, token_model, pos_model)
       super(model)
 
-      unless token_model.is_a?(Model::Tokenizer)
-        raise ArgumentError, 'token model must be an OpenNlp::Tokenizer::Model'
-      end
+      token_model.is_a?(Model::Tokenizer) ||
+        raise(ArgumentError, 'token model must be an OpenNlp::Tokenizer::Model')
 
-      unless pos_model.is_a?(Model::POSTagger)
-        raise ArgumentError, 'pos model must be an OpenNlp::POSTagger::Model'
-      end
+      pos_model.is_a?(Model::POSTagger) ||
+        raise(ArgumentError, 'pos model must be an OpenNlp::POSTagger::Model')
 
       @tokenizer = Tokenizer.new(token_model)
       @pos_tagger = POSTagger.new(pos_model)

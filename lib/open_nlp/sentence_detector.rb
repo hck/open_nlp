@@ -8,6 +8,7 @@ module OpenNlp
     # @return [Array<String>] array of detected sentences
     def detect(str)
       raise ArgumentError, 'str must be a String' unless str.is_a?(String)
+
       j_instance.sentDetect(str).to_ary
     end
 
@@ -17,6 +18,7 @@ module OpenNlp
     # @return [Array<OpenNlp::Util::Span>] array of spans for detected sentences
     def pos_detect(str)
       raise ArgumentError, 'str must be a String' unless str.is_a?(String)
+
       j_instance.sentPosDetect(str).map do |span|
         OpenNlp::Util::Span.new(span.getStart, span.getEnd)
       end

@@ -7,13 +7,13 @@ class OpenNlp::Util::Span
 
   # Initializes new instance of Util::Span
   #
-  # @param [Integer] s start index of the span
-  # @param [Integer] e end index of the span
-  def initialize(s, e)
-    raise ArgumentError, 's should be an integer' unless s.is_a?(Fixnum)
-    raise ArgumentError, 'e should be an integer' unless e.is_a?(Fixnum)
+  # @param [Integer] start start index of the span
+  # @param [Integer] end end index of the span
+  def initialize(start_pos, end_pos)
+    raise ArgumentError, 'start should be an integer' unless start_pos.is_a?(Integer)
+    raise ArgumentError, 'end should be an integer' unless end_pos.is_a?(Integer)
 
-    @j_instance = self.class.java_class.new(s, e)
+    @j_instance = self.class.java_class.new(start_pos, end_pos)
   end
 
   # Returns end index of the span
@@ -47,7 +47,7 @@ class OpenNlp::Util::Span
   def ==(other)
     return false unless other.is_a?(self.class)
 
-    [:start, :end, :type].inject(true) do |acc, method|
+    %i[start end type].inject(true) do |acc, method|
       acc && public_send(method) == other.public_send(method)
     end
   end

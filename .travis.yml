@@ -1,6 +1,4 @@
 language: ruby
 rvm:
-  - jruby-19mode
-  - jruby-1.7.20
-  - jruby-9.0.5.0
+  - jruby-9.2.4.0
 script: JRUBY_OPTS=-J-Xmx768m bundle exec rspec spec

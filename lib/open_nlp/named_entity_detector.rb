@@ -8,6 +8,7 @@ module OpenNlp
     # @return [Array<Java::opennlp.tools.util.Span>] names detected
     def detect(tokens)
       raise ArgumentError, 'tokens must be an instance of Array' unless tokens.is_a?(Array)
+
       j_instance.find(tokens.to_java(:String)).to_ary
     end
   end

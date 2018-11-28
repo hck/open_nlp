@@ -5,13 +5,11 @@ module OpenNlp
     # @param [OpenNlp::Model::Parser] parser_model
     # @param [OpenNlp::Model::Tokenizer] token_model
     def initialize(parser_model, token_model)
-      unless parser_model.is_a?(OpenNlp::Model::Parser)
-        raise ArgumentError, 'parser_model must be an OpenNlp::Model'
-      end
+      parser_model.is_a?(OpenNlp::Model::Parser) ||
+        raise(ArgumentError, 'parser_model must be an OpenNlp::Model')
 
-      unless token_model.is_a?(Model::Tokenizer)
-        raise ArgumentError, 'token_model must be an OpenNlp::Tokenizer::Model'
-      end
+      token_model.is_a?(Model::Tokenizer) ||
+        raise(ArgumentError, 'token_model must be an OpenNlp::Tokenizer::Model')
 
       @j_instance = Java::opennlp.tools.parser.ParserFactory.create(parser_model.j_model)
       @tokenizer = Tokenizer.new(token_model)
@@ -23,6 +21,7 @@ module OpenNlp
     # @return [OpenNlp::Parser::Parse]
     def parse(text)
       raise ArgumentError, 'passed text must be a String' unless text.is_a?(String)
+
       text.empty? ? {} : parse_tokens(tokenizer.tokenize(text), text)
     end
 
@@ -31,7 +30,7 @@ module OpenNlp
     attr_reader :tokenizer
 
     def get_token_offset(text, tokens, index)
-      return 0 if index == 0
+      return 0 if index.zero?
 
       (1..index).inject(0) do |offset, i|
         text.index(tokens[i], offset + tokens[i - 1].size)

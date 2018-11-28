@@ -21,8 +21,8 @@ RSpec.describe OpenNlp::POSTagger do
     end
 
     it 'tags provided tokens' do
-      tagged = pos_tagger.tag(%w(The quick brown fox jumps over the lazy dog .))
-      expect(tagged.to_ary).to eq(%w(DT JJ JJ NN NNS IN DT JJ NN .))
+      tagged = pos_tagger.tag(%w[The quick brown fox jumps over the lazy dog .])
+      expect(tagged.to_ary).to eq(%w[DT JJ JJ NN NNS IN DT JJ NN .])
     end
 
     it 'raises an ArgumentError when nil is passed as an argument' do

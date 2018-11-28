@@ -10,9 +10,8 @@ module OpenNlp
     #
     # @param [Java::opennlp.tools.parser.Parse] java_instance
     def initialize(java_instance)
-      unless java_instance.is_a?(self.class.java_class)
-        raise ArgumentError, "java_instance must be an instance of #{self.class.java_class.name}"
-      end
+      java_instance.is_a?(self.class.java_class) ||
+        raise(ArgumentError, "java_instance must be an instance of #{self.class.java_class.name}")
 
       @j_instance = java_instance
     end
